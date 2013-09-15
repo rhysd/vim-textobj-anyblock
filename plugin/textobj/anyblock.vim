@@ -5,9 +5,6 @@ endif
 let s:save_cpo = &cpo
 set cpo&vim
 
-let g:textobj_anyblock_blocks = get(g:, 'textobj_anyblock_blocks',
-            \ [ '(', '{', '[', '"', "'", '<' ])
-
 call textobj#user#plugin('anyblock', {
     \ '-' : {
     \      'select-a' : 'ab', '*select-a-function*' : 'textobj#anyblock#select_a',
