@@ -11,7 +11,7 @@ function! textobj#anyblock#select_a()
 endfunction
 
 function! s:select(chunk)
-    let min_region = []
+    let min_region = [getpos('.'), getpos('.')]
     for block in g:textobj#anyblock#blocks
         let r = s:get_region(a:chunk.block)
         if s:is_empty_region(r) || s:cursor_is_out_of_region(r)
@@ -28,7 +28,7 @@ function! s:select(chunk)
             let min_region = r
         endif
     endfor
-    return exists('min_region_extent') ? ['v', min_region[0], min_region[1]] : 0
+    return ['v', min_region[0], min_region[1]]
 endfunction
 
 function! s:region_extent(region)
@@ -61,7 +61,7 @@ function! s:get_region(textobj)
 endfunction
 
 function! s:is_empty_region(region)
-    return a:region[1][2] < a:region[0][2] || (a:region[0][1] == a:region[1][1] && a:region[1][2] <= a:region[0][2])
+    return a:region[1][1] < a:region[0][1] || (a:region[0][1] == a:region[1][1] && a:region[1][2] <= a:region[0][2])
 endfunction
 
 
