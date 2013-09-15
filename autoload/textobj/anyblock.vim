@@ -1,5 +1,6 @@
 let g:textobj#anyblock#blocks = get(g:, 'textobj#anyblock#blocks',
             \ [ '(', '{', '[', '"', "'", '<' ])
+let g:textobj#anyblock#min_block_size = get(g:, 'textobj#anyblock#min_block_size', 1)
 
 function! textobj#anyblock#select_i()
     return s:select('i')
@@ -18,6 +19,10 @@ function! s:select(chunk)
         endif
 
         let e = s:region_extent(r)
+        if e < g:textobj#anyblock#min_
+            continue
+        endif
+
         if !exists('min_region_extent') || min_region_extent > e
             let min_region_extent = e
             let min_region = r
