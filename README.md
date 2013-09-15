@@ -10,4 +10,6 @@ This plugin make a text object mappings `ib` and `ab`.
 
 ![Screen shot](http://gifzo.net/Twph2N6Nmd.gif)
 
+This plugin depends on [vim-textobj-user](https://github.com/kana/vim-textobj-user). Please install it in advance.
+
 This plugin is distributed under the MIT License.
