@@ -10,7 +10,17 @@ function! textobj#anyblock#select_a()
     return s:select('a')
 endfunction
 
+function! s:restore_screen_pos(before_screen_begin)
+    let line_diff = line('w0') - a:before_screen_begin
+    if line_diff > 0
+        execute 'normal!' line_diff."\<C-y>"
+    elseif line_diff < 0
+        execute 'normal!' line_diff."\<C-e>"
+    endif
+endfunction
+
 function! s:select(chunk)
+    let save_screen_begin = line('w0')
     let min_region = [getpos('.'), getpos('.')]
     for block in g:textobj#anyblock#blocks + get(b:, 'textobj#anyblock#local_blocks', [])
         let r = s:get_region(a:chunk.block)
@@ -28,6 +38,7 @@ function! s:select(chunk)
             let min_region = r
         endif
     endfor
+    call s:restore_screen_pos(save_screen_begin)
     return ['v', min_region[0], min_region[1]]
 endfunction
 
