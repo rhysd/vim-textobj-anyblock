@@ -12,4 +12,6 @@ This plugin make a text object mappings `ib` and `ab`.
 
 This plugin depends on [vim-textobj-user](https://github.com/kana/vim-textobj-user). Please install it in advance.
 
+If you want to change the blocks which `ib` and `ab` match, define `g:textobj#anyblock#blocks`.  For example, if you install [vim-textobj-between]() and want to match `` `...` ``, set ``[ '(', '{', '[', '"', "'", '<' , 'f`']`` to it.
+
 This plugin is distributed under the MIT License.
