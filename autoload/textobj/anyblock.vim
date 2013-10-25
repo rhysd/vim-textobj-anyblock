@@ -12,7 +12,7 @@ endfunction
 
 function! s:select(chunk)
     let min_region = [getpos('.'), getpos('.')]
-    for block in g:textobj#anyblock#blocks
+    for block in g:textobj#anyblock#blocks + get(b:, 'textobj#anyblock#local_blocks', [])
         let r = s:get_region(a:chunk.block)
         if s:is_empty_region(r) || s:cursor_is_out_of_region(r)
             continue
