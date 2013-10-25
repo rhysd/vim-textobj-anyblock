@@ -12,12 +12,12 @@ describe 'Default settings'
     it 'provide default <Plug> mappings'
         Expect '<Plug>(textobj-anyblock-i)' to_be_mapped
         Expect '<Plug>(textobj-anyblock-a)' to_be_mapped
-        Expect 'ib' to_be_mapped_to '<Plug>(textobj-anyblock-i)'
-        Expect 'ab' to_be_mapped_to '<Plug>(textobj-anyblock-a)'
+        Expect 'ib' to_map_to '<Plug>(textobj-anyblock-i)', 'xo'
+        Expect 'ab' to_map_to '<Plug>(textobj-anyblock-a)', 'xo'
     end
 
     it 'provide autoload functions'
-        runtime autoload/textobj/anyblock.vim
+        silent! call textobj#anyblock#select_i()
         Expect '*textobj#anyblock#select_i' to_exist
         Expect '*textobj#anyblock#select_a' to_exist
     end
