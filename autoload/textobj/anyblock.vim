@@ -18,7 +18,7 @@ function! s:restore_screen_pos(before_screen_begin)
     if line_diff > 0
         execute 'normal!' line_diff."\<C-y>"
     elseif line_diff < 0
-        execute 'normal!' line_diff."\<C-e>"
+        execute 'normal!' (-line_diff)."\<C-e>"
     endif
 endfunction
 
