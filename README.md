@@ -16,7 +16,7 @@ This plugin depends on [vim-textobj-user](https://github.com/kana/vim-textobj-us
 
 If you want to change the blocks which `ib` and `ab` match, define `g:textobj#anyblock#blocks`.  For example, if you install [vim-textobj-between](https://github.com/thinca/vim-textobj-between) and want to match `` `...` ``, set ``[ '(', '{', '[', '"', "'", '<' , 'f`']`` to it.
 
-If you want to define buffer local blocks, set them to `b:textobj#anyblock#buffer_local_blocks` as list of string.
+If you want to define buffer local blocks, set them to `b:textobj_anyblock_buffer_local_blocks` as list of string.
 
 ### License
 
