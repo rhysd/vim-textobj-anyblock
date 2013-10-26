@@ -49,7 +49,7 @@ function! s:region_extent(region)
     let extent = 0
 
     for line in range(a:region[0][1], a:region[1][1])
-        let line_width = len(getline(line))
+        let line_width = strlen(getline(line))
         let width = line_width
 
         if line == a:region[0][1]
