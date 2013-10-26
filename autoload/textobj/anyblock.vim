@@ -36,7 +36,7 @@ function! s:select(chunk)
             continue
         endif
 
-        if !exists('min_region_extent') || min_region_extent > e
+        if !exists('l:min_region_extent') || min_region_extent > e
             let min_region_extent = e
             let min_region = r
         endif
