@@ -25,7 +25,7 @@ endfunction
 function! s:select(chunk)
     let save_screen_begin = line('w0')
     let min_region = [getpos('.'), getpos('.')]
-    for block in g:textobj#anyblock#blocks + get(b:, 'textobj_anyblock_local_blocks', [])
+    for block in get(b:, 'textobj_anyblock_local_blocks', []) + g:textobj#anyblock#blocks
         let r = s:get_region(a:chunk.block)
         if s:is_empty_region(r) || s:cursor_is_out_of_region(r)
             continue
