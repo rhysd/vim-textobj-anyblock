@@ -53,7 +53,7 @@ function! s:region_extent(region)
         let width = line_width
 
         if line == a:region[0][1]
-            let width -= a:region[0][2]
+            let width -= a:region[0][2] - 1
         endif
 
         if line == a:region[1][1]
