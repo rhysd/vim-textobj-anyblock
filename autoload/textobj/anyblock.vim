@@ -2,7 +2,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 let g:textobj#anyblock#blocks = get(g:, 'textobj#anyblock#blocks',
-            \ [ '(', '{', '[', '"', "'", '<' ])
+            \ [ '(', '{', '[', '"', "'", '<', '`' ])
 let g:textobj#anyblock#min_block_size = get(g:, 'textobj#anyblock#min_block_size', 2)
 
 function! textobj#anyblock#select_i()
