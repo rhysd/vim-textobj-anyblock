@@ -23,7 +23,7 @@ describe 'Default settings'
     end
 
     it 'provide variables to customize'
-        Expect 'g:textobj#anyblock#blocks' to_exist_and_default_to [ '(', '{', '[', '"', "'", '<' ]
+        Expect 'g:textobj#anyblock#blocks' to_exist_and_default_to [ '(', '{', '[', '"', "'", '<', '`' ]
         Expect 'g:textobj#anyblock#min_block_size' to_exist_and_default_to 2
     end
 end
