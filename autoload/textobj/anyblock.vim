@@ -42,7 +42,11 @@ function! s:select(chunk)
         endif
     endfor
     call s:restore_screen_pos(save_screen_begin)
-    return ['v', min_region[0], min_region[1]]
+    if min_region[0] == min_region[1]
+      return 0
+    else
+      return ['v', min_region[0], min_region[1]]
+    endif
 endfunction
 
 function! s:region_extent(region)
