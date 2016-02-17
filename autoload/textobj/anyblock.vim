@@ -69,7 +69,7 @@ endfunction
 function! s:get_region(textobj)
     let pos = getpos('.')
     normal! v
-    execute 'silent' 'normal'  a:textobj
+    execute 'silent!' 'normal'  a:textobj
     execute 'silent' 'normal!' "\<Esc>"
     call setpos('.', pos)
     return [getpos("'<"), getpos("'>")]
