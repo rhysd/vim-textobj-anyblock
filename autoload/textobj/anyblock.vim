@@ -69,8 +69,18 @@ endfunction
 function! s:get_region(textobj)
     let pos = getpos('.')
     normal! v
-    execute 'silent!' 'normal'  a:textobj
-    execute 'silent!' 'normal!' "\<Esc>"
+
+    let saved_vb = &vb
+    let saved_t_vb = &t_vb
+    try
+        set vb t_vb=
+        execute 'silent' 'normal'  a:textobj
+        execute 'silent' 'normal!' "\<Esc>"
+    finally
+        let &vb = saved_vb
+        let &t_vb = saved_t_vb
+    endtry
+
     call setpos('.', pos)
     return [getpos("'<"), getpos("'>")]
 endfunction
