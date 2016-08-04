@@ -23,30 +23,32 @@ function! s:restore_screen_pos(before_screen_begin)
 endfunction
 
 function! s:select(chunk)
-    let save_screen_begin = line('w0')
-    let min_region = [getpos('.'), getpos('.')]
-    for block in get(b:, 'textobj_anyblock_local_blocks', []) + g:textobj#anyblock#blocks
-        let r = s:get_region(a:chunk.block)
-        if s:is_empty_region(r) || s:cursor_is_out_of_region(r)
-            continue
-        endif
+    let saved_vb = &l:visualbell
+    try
+        let &l:visualbell = 0
+        let save_screen_begin = line('w0')
+        let min_region = [getpos('.'), getpos('.')]
+        for block in get(b:, 'textobj_anyblock_local_blocks', []) + g:textobj#anyblock#blocks
+            let r = s:get_region(a:chunk.block)
+            if s:is_empty_region(r) || s:cursor_is_out_of_region(r)
+                continue
+            endif
 
-        let e = s:region_extent(r)
-        if e < g:textobj#anyblock#min_block_size
-            continue
-        endif
+            let e = s:region_extent(r)
+            if e < g:textobj#anyblock#min_block_size
+                continue
+            endif
 
-        if !exists('l:min_region_extent') || min_region_extent > e
-            let min_region_extent = e
-            let min_region = r
-        endif
-    endfor
-    call s:restore_screen_pos(save_screen_begin)
-    if min_region[0] == min_region[1]
-      return 0
-    else
-      return ['v', min_region[0], min_region[1]]
-    endif
+            if !exists('l:min_region_extent') || min_region_extent > e
+                let min_region_extent = e
+                let min_region = r
+            endif
+        endfor
+        call s:restore_screen_pos(save_screen_begin)
+        return ['v', min_region[0], min_region[1]]
+    finally
+        let &l:visualbell = saved_vb
+    endtry
 endfunction
 
 function! s:region_extent(region)
