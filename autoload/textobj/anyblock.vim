@@ -5,15 +5,15 @@ let g:textobj#anyblock#blocks = get(g:, 'textobj#anyblock#blocks',
             \ [ '(', '{', '[', '"', "'", '<', '`' ])
 let g:textobj#anyblock#min_block_size = get(g:, 'textobj#anyblock#min_block_size', 2)
 
-function! textobj#anyblock#select_i()
+function! textobj#anyblock#select_i() abort
     return s:select('i')
 endfunction
 
-function! textobj#anyblock#select_a()
+function! textobj#anyblock#select_a() abort
     return s:select('a')
 endfunction
 
-function! s:restore_screen_pos(before_screen_begin)
+function! s:restore_screen_pos(before_screen_begin) abort
     let line_diff = line('w0') - a:before_screen_begin
     if line_diff > 0
         execute 'normal!' line_diff."\<C-y>"
@@ -22,7 +22,7 @@ function! s:restore_screen_pos(before_screen_begin)
     endif
 endfunction
 
-function! s:select(chunk)
+function! s:select(chunk) abort
     let save_screen_begin = line('w0')
     let min_region = [getpos('.'), getpos('.')]
     for block in get(b:, 'textobj_anyblock_local_blocks', []) + g:textobj#anyblock#blocks
@@ -49,7 +49,7 @@ function! s:select(chunk)
     endif
 endfunction
 
-function! s:region_extent(region)
+function! s:region_extent(region) abort
     let extent = 0
 
     for line in range(a:region[0][1], a:region[1][1])
@@ -70,7 +70,7 @@ function! s:region_extent(region)
     return extent
 endfunction
 
-function! s:get_region(textobj)
+function! s:get_region(textobj) abort
     let pos = getpos('.')
     normal! v
 
@@ -89,12 +89,12 @@ function! s:get_region(textobj)
     return [getpos("'<"), getpos("'>")]
 endfunction
 
-function! s:is_empty_region(region)
+function! s:is_empty_region(region) abort
     return a:region[1][1] < a:region[0][1] || (a:region[0][1] == a:region[1][1] && a:region[1][2] <= a:region[0][2])
 endfunction
 
 
-function! s:cursor_is_out_of_region(region)
+function! s:cursor_is_out_of_region(region) abort
     let [_, line, col, _] = getpos('.')
 
     if line < a:region[0][1] || (line == a:region[0][1] && col < a:region[0][2])
