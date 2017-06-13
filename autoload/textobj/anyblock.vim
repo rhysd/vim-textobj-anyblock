@@ -25,9 +25,10 @@ endfunction
 function! s:select(chunk)
     let save_screen_begin = line('w0')
     let min_region = [getpos('.'), getpos('.')]
+    let is_inner = a:chunk ==# 'i'
     for block in get(b:, 'textobj_anyblock_local_blocks', []) + g:textobj#anyblock#blocks
         let r = s:get_region(a:chunk.block)
-        if s:is_empty_region(r) || s:cursor_is_out_of_region(r)
+        if s:is_empty_region(r) || s:cursor_is_out_of_region(r, is_inner)
             continue
         endif
 
@@ -94,14 +95,15 @@ function! s:is_empty_region(region)
 endfunction
 
 
-function! s:cursor_is_out_of_region(region)
+function! s:cursor_is_out_of_region(region, is_inner)
     let [_, line, col, _] = getpos('.')
+    let outside_surround_len = a:is_inner ? 1 : 0
 
-    if line < a:region[0][1] || (line == a:region[0][1] && col < a:region[0][2])
+    if line < a:region[0][1] || (line == a:region[0][1] && col < a:region[0][2] - outside_surround_len)
         return 1
     endif
 
-    if line > a:region[1][1] || (line == a:region[1][1] && col > a:region[1][2])
+    if line > a:region[1][1] || (line == a:region[1][1] && col > a:region[1][2] + outside_surround_len)
         return 1
     endif
 
