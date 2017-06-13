@@ -16,9 +16,9 @@ endfunction
 function! s:restore_screen_pos(before_screen_begin)
     let line_diff = line('w0') - a:before_screen_begin
     if line_diff > 0
-        execute 'normal!' line_diff."\<C-y>"
+        keepjumps execute 'normal!' line_diff."\<C-y>"
     elseif line_diff < 0
-        execute 'normal!' (-line_diff)."\<C-e>"
+        keepjumps execute 'normal!' (-line_diff)."\<C-e>"
     endif
 endfunction
 
@@ -78,8 +78,8 @@ function! s:get_region(textobj)
     let saved_t_vb = &t_vb
     try
         set vb t_vb=
-        execute 'silent' 'normal'  a:textobj
-        execute 'silent' 'normal!' "\<Esc>"
+        keepjumps execute 'silent' 'normal'  a:textobj
+        keepjumps execute 'silent' 'normal!' "\<Esc>"
     finally
         let &vb = saved_vb
         let &t_vb = saved_t_vb
