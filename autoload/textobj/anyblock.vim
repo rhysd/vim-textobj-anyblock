@@ -16,18 +16,19 @@ endfunction
 function! s:restore_screen_pos(before_screen_begin) abort
     let line_diff = line('w0') - a:before_screen_begin
     if line_diff > 0
-        execute 'normal!' line_diff."\<C-y>"
+        keepjumps execute 'normal!' line_diff."\<C-y>"
     elseif line_diff < 0
-        execute 'normal!' (-line_diff)."\<C-e>"
+        keepjumps execute 'normal!' (-line_diff)."\<C-e>"
     endif
 endfunction
 
 function! s:select(chunk) abort
     let save_screen_begin = line('w0')
     let min_region = [getpos('.'), getpos('.')]
+    let is_inner = a:chunk ==# 'i'
     for block in get(b:, 'textobj_anyblock_local_blocks', []) + g:textobj#anyblock#blocks
         let r = s:get_region(a:chunk.block)
-        if s:is_empty_region(r) || s:cursor_is_out_of_region(r)
+        if s:is_empty_region(r) || s:cursor_is_out_of_region(r, is_inner)
             continue
         endif
 
@@ -78,8 +79,8 @@ function! s:get_region(textobj) abort
     let saved_t_vb = &t_vb
     try
         set vb t_vb=
-        execute 'silent' 'normal'  a:textobj
-        execute 'silent' 'normal!' "\<Esc>"
+        keepjumps execute 'silent' 'normal'  a:textobj
+        keepjumps execute 'silent' 'normal!' "\<Esc>"
     finally
         let &vb = saved_vb
         let &t_vb = saved_t_vb
@@ -94,14 +95,15 @@ function! s:is_empty_region(region) abort
 endfunction
 
 
-function! s:cursor_is_out_of_region(region) abort
+function! s:cursor_is_out_of_region(region, is_inner) abort
     let [_, line, col, _] = getpos('.')
+    let outside_surround_len = a:is_inner ? 1 : 0
 
-    if line < a:region[0][1] || (line == a:region[0][1] && col < a:region[0][2])
+    if line < a:region[0][1] || (line == a:region[0][1] && col < a:region[0][2] - outside_surround_len)
         return 1
     endif
 
-    if line > a:region[1][1] || (line == a:region[1][1] && col > a:region[1][2])
+    if line > a:region[1][1] || (line == a:region[1][1] && col > a:region[1][2] + outside_surround_len)
         return 1
     endif
 

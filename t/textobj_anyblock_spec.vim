@@ -87,3 +87,20 @@ describe '<Plug>(textobj-anyblock-i)'
         Expect getline('.') ==# '()'
     end
 end
+
+describe 'issues'
+    before
+        new
+    end
+
+    after
+        close!
+    end
+
+    it 'considers length of surround at "i" object (#9)'
+        call AddLine('(b(aaa)b)')
+        normal! gg0f)
+        normal dib
+        Expect getline('.') ==# '(b()b)'
+    end
+end
