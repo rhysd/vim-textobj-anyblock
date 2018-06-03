@@ -4,6 +4,7 @@ set cpo&vim
 let g:textobj#anyblock#blocks = get(g:, 'textobj#anyblock#blocks',
             \ [ '(', '{', '[', '"', "'", '<', '`' ])
 let g:textobj#anyblock#min_block_size = get(g:, 'textobj#anyblock#min_block_size', 2)
+let g:textobj#anyblock#noremap_blocks = get(g:, 'textobj#anyblock#noremap_blocks', 0)
 
 function! textobj#anyblock#select_i() abort
     return s:select('i')
@@ -27,7 +28,7 @@ function! s:select(chunk) abort
     let min_region = [getpos('.'), getpos('.')]
     let is_inner = a:chunk ==# 'i'
     for block in get(b:, 'textobj_anyblock_local_blocks', []) + g:textobj#anyblock#blocks
-        let r = s:get_region(a:chunk.block)
+        let r = s:get_region(a:chunk . block)
         if s:is_empty_region(r) || s:cursor_is_out_of_region(r, is_inner)
             continue
         endif
@@ -79,7 +80,8 @@ function! s:get_region(textobj) abort
     let saved_t_vb = &t_vb
     try
         set vb t_vb=
-        keepjumps execute 'silent' 'normal'  a:textobj
+        let noremap = g:textobj#anyblock#noremap_blocks ? '!' : ''
+        keepjumps execute 'silent' 'normal' . noremap a:textobj
         keepjumps execute 'silent' 'normal!' "\<Esc>"
     finally
         let &vb = saved_vb
