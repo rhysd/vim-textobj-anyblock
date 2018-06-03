@@ -1,6 +1,6 @@
-Make Quotes, Parenthesis, Braces as the Same Text Object
-========================================================
- [![Build Status](https://travis-ci.org/rhysd/vim-textobj-anyblock.png?branch=master)](https://travis-ci.org/rhysd/vim-textobj-anyblock)
+One Text Object for Quotes, Parentheses and Braces
+==================================================
+[![Build Status][]][Travis CI]
 
 This plugin provides text object mappings `ib` and `ab`.
 
@@ -17,8 +17,11 @@ For example, if you install [vim-textobj-between](https://github.com/thinca/vim-
 want to match `` `...` ``, set ``[ '(', '{', '[', '"', "'", '<' , 'f`']`` to it.
 
 If you want to define buffer local blocks, set them to `b:textobj_anyblock_buffer_local_blocks` as
-list of string.
+list of string on `FileType` autocmd event.
 
 ### License
 
 Copyright (c) 2013 rhysd [MIT License](http://opensource.org/licenses/MIT).
+
+[Build Status]: https://travis-ci.org/rhysd/vim-textobj-anyblock.png?branch=master
+[Travis CI]: https://travis-ci.org/rhysd/vim-textobj-anyblock
