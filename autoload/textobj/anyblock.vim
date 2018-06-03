@@ -4,13 +4,15 @@ set cpo&vim
 let g:textobj#anyblock#blocks = get(g:, 'textobj#anyblock#blocks',
             \ [ '(', '{', '[', '"', "'", '<', '`' ])
 let g:textobj#anyblock#min_block_size = get(g:, 'textobj#anyblock#min_block_size', 2)
+let g:textobj#anyblock#inner_block_mapping = get(g:, 'textobj#anyblock#inner_block_mapping', 'i')
+let g:textobj#anyblock#outer_block_mapping = get(g:, 'textobj#anyblock#outer_block_mapping', 'a')
 
 function! textobj#anyblock#select_i() abort
-    return s:select('i')
+    return s:select(g:textobj#anyblock#inner_block_mapping)
 endfunction
 
 function! textobj#anyblock#select_a() abort
-    return s:select('a')
+    return s:select(g:textobj#anyblock#outer_block_mapping)
 endfunction
 
 function! s:restore_screen_pos(before_screen_begin) abort
@@ -25,9 +27,9 @@ endfunction
 function! s:select(chunk) abort
     let save_screen_begin = line('w0')
     let min_region = [getpos('.'), getpos('.')]
-    let is_inner = a:chunk ==# 'i'
+    let is_inner = a:chunk ==# g:textobj#anyblock#inner_block_mapping
     for block in get(b:, 'textobj_anyblock_local_blocks', []) + g:textobj#anyblock#blocks
-        let r = s:get_region(a:chunk.block)
+        let r = s:get_region(a:chunk . block)
         if s:is_empty_region(r) || s:cursor_is_out_of_region(r, is_inner)
             continue
         endif
