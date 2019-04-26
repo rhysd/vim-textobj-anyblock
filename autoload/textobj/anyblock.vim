@@ -81,7 +81,7 @@ function! s:get_region(textobj) abort
     let saved_t_vb = &t_vb
     try
         set vb t_vb=
-        keepjumps execute 'silent' 'normal'  a:textobj
+        keepjumps execute 'silent' 'normal!'  a:textobj
         keepjumps execute 'silent' 'normal!' "\<Esc>"
     finally
         let &vb = saved_vb
