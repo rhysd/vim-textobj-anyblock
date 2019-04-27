@@ -29,7 +29,7 @@ function! s:select(chunk) abort
     let min_region = [getpos('.'), getpos('.')]
     let is_inner = a:chunk ==# g:textobj#anyblock#inner_block_mapping
     for block in get(b:, 'textobj_anyblock_local_blocks', []) + g:textobj#anyblock#blocks
-        let r = s:get_region(a:chunk . block)
+        let r = s:get_region(a:chunk, block)
         if s:is_empty_region(r) || s:cursor_is_out_of_region(r, is_inner)
             continue
         endif
@@ -73,7 +73,7 @@ function! s:region_extent(region) abort
     return extent
 endfunction
 
-function! s:get_region(textobj) abort
+function! s:get_region(chunk, textobj) abort
     let pos = getpos('.')
     normal! v
 
@@ -81,7 +81,8 @@ function! s:get_region(textobj) abort
     let saved_t_vb = &t_vb
     try
         set vb t_vb=
-        keepjumps execute 'silent' 'normal!'  a:textobj
+        keepjumps execute 'silent' 'normal!'  a:chunk
+        keepjumps execute 'silent' 'normal'  a:textobj
         keepjumps execute 'silent' 'normal!' "\<Esc>"
     finally
         let &vb = saved_vb
