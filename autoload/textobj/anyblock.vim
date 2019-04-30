@@ -6,7 +6,7 @@ let g:textobj#anyblock#blocks = get(g:, 'textobj#anyblock#blocks',
 let g:textobj#anyblock#min_block_size = get(g:, 'textobj#anyblock#min_block_size', 2)
 let g:textobj#anyblock#inner_block_mapping = get(g:, 'textobj#anyblock#inner_block_mapping', 'i')
 let g:textobj#anyblock#outer_block_mapping = get(g:, 'textobj#anyblock#outer_block_mapping', 'a')
-let g:textobj#anyblock#no_remap_block_mapping = get(g:, 'textobj#anyblock#inner_block_mapping', 0)
+let g:textobj#anyblock#no_remap_block_mapping = get(g:, 'textobj#anyblock#no_remap_block_mapping', 0)
 
 function! textobj#anyblock#select_i() abort
     return s:select(g:textobj#anyblock#inner_block_mapping)
